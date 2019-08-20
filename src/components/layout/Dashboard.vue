@@ -8,7 +8,7 @@
         <span class="md-title">Pertamina</span>
 
         <div class="md-toolbar-section-end">
-          <md-button @click="showSidepanel = true"> User <md-icon>person</md-icon></md-button>
+          <md-button @click="showSidepanel = true"><md-icon>person</md-icon> User </md-button>
         </div>
       </md-app-toolbar>
 

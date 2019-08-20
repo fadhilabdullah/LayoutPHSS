@@ -1,119 +1,116 @@
 <template>
-  <div id="app">
-    <b-navbar toggleable="lg" type="dark" class="nav-background">
-    <div class="logo">
-      <b-navbar-brand href="#">Pertamina</b-navbar-brand>
-    </div>
+  <div class="centered-container">
+    <md-content class="md-elevation-3">
 
-    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <div class="title">
+        <img class="logo" src="https://cdn2.tstatic.net/jatim/foto/bank/images/pertamina_20180807_071843.jpg">
+        
+      </div>
 
-    <b-collapse id="nav-collapse" is-nav>
-      <b-navbar-nav>
-        <b-nav-item href="#">Link</b-nav-item>
-      </b-navbar-nav>
+      <div class="form">
+        <md-field>
+          <label>E-mail</label>
+          <md-input v-model="login.email" autofocus></md-input>
+        </md-field>
 
-      <!-- Right aligned nav items -->
-      <b-navbar-nav class="ml-auto">
-        <b-nav-item-dropdown right>
-          <!-- Using 'button-content' slot -->
-          <template slot="button-content"><em>User</em></template>
-          <b-dropdown-item href="#">Profile</b-dropdown-item>
-          <b-dropdown-item href="#">Sign Out</b-dropdown-item>
-        </b-nav-item-dropdown>
-      </b-navbar-nav>
-   
-   
-    </b-collapse>
-  </b-navbar>
+        <md-field md-has-password>
+          <label>Password</label>
+          <md-input v-model="login.password" type="password"></md-input>
+        </md-field>
+      </div>
 
-  <b-container>
-    <b-row align-h='center' class="mt-5">
-      <b-col cols='5'>
-          <b-card class="p-3">
-            <div>
-              <h3 class="mb-4">Login</h3>
-              <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-                <b-form-group id="input-group-1" label="Email address:" label-for="input-1"
-                  >
-                  <b-form-input id="input-1" v-model="form.email" type="email" required placeholder="Enter email">
-                  </b-form-input>
-                </b-form-group>
+      <div class="actions md-layout md-alignment-center-space-between">
+        <a href="/forgotpassword">Forgot password?</a>
+        <md-button class="md-raised md-primary" @click="auth">Log in</md-button>
+      </div>
 
-                <b-form-group id="input-group-2" label="Password:" label-for="input-2">
-                  <b-form-input id="input-2" type="password" v-model="form.password" required placeholder="Enter password"></b-form-input>
-                </b-form-group>                
+      <div class="loading-overlay" v-if="loading">
+        <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
+      </div>
 
-                <b-form-group id="input-group-4">
-                  <b-form-checkbox-group v-model="form.checked" id="checkboxes-4">
-                    <b-form-checkbox value="remember">Remember me</b-form-checkbox>
-                  </b-form-checkbox-group>
-                </b-form-group>
-
-                <div class="d-flex justify-content-between">
-                  <div>
-                    <b-button type="login" variant="primary">Login</b-button>
-                  </div>  
-                  <div>
-                    <a href="#" v-b-modal.modal1>Forgot password?</a>
-                  </div>
-                  
-                </div>
-              </b-form>
-             
-            </div>
-          </b-card>
-      </b-col>
-    </b-row>
-  </b-container>
-
+    </md-content>
+    <div class="background" />
   </div>
 </template>
 
 <script>
-  //import DashboardVue from './components/layout/Dashboard';
-
   export default {
-    name: 'Login',    
-    data() {
-      return {
-        form: {
-          email: '',
-          password: '',    
-          checked: []
-        },        
-        passwordType: 'password',
-        show: true,
-        redirect: undefined
+  name: "App",
+  data() {
+    return {
+      loading: false,
+      login: {
+        email: "",
+        password: ""
       }
-    },
-    methods: {
-      onSubmit(evt) {
-        evt.preventDefault()
-        alert(JSON.stringify(this.form))
-      },
-      onReset(evt) {
-        evt.preventDefault()
-        // Reset our form values
-        this.form.email = ''
-        this.form.name = ''        
-        this.form.checked = []
-        // Trick to reset/clear native browser form validation state
-        this.show = false
-        this.$nextTick(() => {
-          this.show = true
-        })
-      }
+    };
+  },
+  methods: {
+    auth() {
+      // your code to login user
+      // this is only for example of loading
+      this.loading = true;
+      setTimeout(() => {
+        this.loading = false;
+      }, 5000);
     }
   }
+};
 </script>
 
-<style>
-  body {
-    background: #EEF1F4;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+<style lang="scss" scoped>
+  .centered-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 100vh;
+  .title {
+    text-align: center;
+    margin-bottom: 30px;
+    img {
+      margin-bottom: 16px;
+      max-width: 200px;
+    }
   }
-
-  .nav-background {
-    background: #353535;
+  .actions {
+    .md-button {
+      margin: 0;
+    }
   }
+  .form {
+    margin-bottom: 60px;
+  }
+  .background {
+    background: rgba(161, 203, 241, 0.295);
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 0;
+  }
+  .md-content {
+    z-index: 1;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+  }
+  .loading-overlay {
+    z-index: 10;
+    top: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }  
+}
 </style>
