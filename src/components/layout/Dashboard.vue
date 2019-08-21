@@ -48,7 +48,7 @@
 
       <md-app-drawer class="md-right" :md-active.sync="showSidepanel">
         <md-toolbar class="md-transparent" md-elevation="0">
-          <span class="md-title">Favorites</span>
+          <span class="md-title">Contoh</span>
         </md-toolbar>
 
         <md-list>
@@ -80,92 +80,206 @@
 
       <md-app-content>
         <div class="container-fluid">          
-          <b-button variant="primary" size="sm" id="show-btn" @click="showModal">Create new</b-button>
+          <md-button class="md-primary md-raised" @click="showDialog = true">Create new</md-button>
           <hr />
-            <table class="table table-hover" id="TableEmployee">
-              <thead>
-                  <tr>
-                      <th> No. </th>                                
-                      <th> Nama </th>
-                      <th> Alamat </th>
-                      <th> Telepon </th>
-                      <th> Action </th>
-                  </tr>
-              </thead>
-              <tbody class="tbody"></tbody>
-          </table>
+            <div>
+              <md-table md-card>
+                <md-table-toolbar>
+                  <h1 class="md-title">Employee</h1>
+                </md-table-toolbar>
+
+                <md-table-row>
+                  <md-table-head md-numeric>No</md-table-head>
+                  <md-table-head>Name</md-table-head>
+                  <md-table-head>Gender</md-table-head>
+                  <md-table-head>Address</md-table-head>
+                  <md-table-head>Email</md-table-head>
+                  <md-table-head>telephone</md-table-head>
+                </md-table-row>
+
+                <md-table-row>
+                  <md-table-cell md-numeric>1</md-table-cell>
+                  <md-table-cell>Fadhil Abdullah H</md-table-cell>
+                  <md-table-cell>Male</md-table-cell>
+                  <md-table-cell>Kuta Bumi, Tangerang - Banten</md-table-cell>
+                  <md-table-cell>fadhilabdullah93@gmail.com</md-table-cell>
+                  <md-table-cell>08997220843</md-table-cell>
+                </md-table-row>
+              </md-table>
+            </div>
         </div>
-        <b-modal ref="myModal" hide-footer title="Create Employee">
-          <form ref="form">
-            <b-form-group :state="namaState" label="Nama" label-for="nama-input" invalid-feedback="Nama is required">
-              <b-form-input id="nama-input" v-model="nama" :state="namaState" required></b-form-input>
-            </b-form-group>
-            <b-form-group :state="alamatState" label="Alamat" label-for="alamat-input" invalid-feedback="Alamat is required">
-              <b-form-input id="alamat-input" v-model="alamat" :state="alamatState" required></b-form-input>
-            </b-form-group>
-            <b-form-group :state="teleponState" label="Telepon" label-for="telepon-input" invalid-feedback="Telepon is required">
-              <b-form-input id="telepon-input" v-model="telepon" :state="teleponState" required></b-form-input>
-            </b-form-group>
+        <md-dialog :md-active.sync="showDialog">
+          <md-dialog-title>Create Employee</md-dialog-title>
+
+          <form novalidate class="md-layout" @submit.prevent="validateUser">
+            <md-card class="md-layout-item md-size-100 md-small-size-100">
+              
+              <md-card-content>
+                <div class="md-layout md-gutter">
+                  <div class="md-layout-item md-small-size-100">
+                    <md-field :class="getValidationClass('firstName')">
+                      <label for="first-name">First Name</label>
+                      <md-input name="first-name" id="first-name" autocomplete="given-name" v-model="form.firstName" :disabled="sending" />
+                      <span class="md-error" v-if="!$v.form.firstName.required">The first name is required</span>
+                      <span class="md-error" v-else-if="!$v.form.firstName.minlength">Invalid first name</span>
+                    </md-field>
+                  </div>
+
+                  <div class="md-layout-item md-small-size-100">
+                    <md-field :class="getValidationClass('lastName')">
+                      <label for="last-name">Last Name</label>
+                      <md-input name="last-name" id="last-name" autocomplete="family-name" v-model="form.lastName" :disabled="sending" />
+                      <span class="md-error" v-if="!$v.form.lastName.required">The last name is required</span>
+                      <span class="md-error" v-else-if="!$v.form.lastName.minlength">Invalid last name</span>
+                    </md-field>
+                  </div>
+                </div>
+
+                <div class="md-layout md-gutter">
+                  <div class="md-layout-item md-small-size-100">
+                    <md-field :class="getValidationClass('gender')">
+                      <label for="gender">Choose your gender</label>
+                      <md-select name="gender" id="gender" v-model="form.gender" md-dense :disabled="sending">                        
+                        <md-option value="M">Male</md-option>
+                        <md-option value="F">Female</md-option>
+                      </md-select>
+                      <span class="md-error">The gender is required</span>
+                    </md-field>
+                  </div>
+                </div>
+
+                <md-field :class="getValidationClass('address')">
+                  <label for="address">Address</label>
+                  <md-textarea type="address" name="address" id="address" autocomplete="address" v-model="form.address" md-autogrow :disabled="sending" />
+                  <span class="md-error" v-if="!$v.form.address.required">The address is required</span>
+                  <span class="md-error" v-else-if="!$v.form.address.maxlength">Invalid address</span>
+                </md-field>
+
+                <md-field :class="getValidationClass('email')">
+                  <label for="email">Email</label>
+                  <md-input type="email" name="email" id="email" autocomplete="email" v-model="form.email" :disabled="sending" />
+                  <span class="md-error" v-if="!$v.form.email.required">The email is required</span>
+                  <span class="md-error" v-else-if="!$v.form.email.email">Invalid email</span>
+                </md-field>
+
+                <md-field :class="getValidationClass('telephone')">
+                  <label for="telephone">telephone</label>
+                  <md-input type="number" name="telephone" id="telephone" autocomplete="telephone" v-model="form.telephone" :disabled="sending" />
+                  <span class="md-error" v-if="!$v.form.telephone.required">The telephone is required</span>
+                  <span class="md-error" v-else-if="!$v.form.telephone.minLength">Invalid telephone</span>
+                </md-field>
+              </md-card-content>
+
+              <md-progress-bar md-mode="indeterminate" v-if="sending" />
+
+              <md-card-actions>
+                <md-button type="submit" class="md-primary" :disabled="sending">Create</md-button>
+                <!-- <md-button type="cancel" class="md-cancel md-accent">Cancel</md-button> -->
+              </md-card-actions>
+            </md-card>
+
+            <md-snackbar :md-active.sync="userSaved">The user {{ lastUser }} was saved with success!</md-snackbar>
           </form>
-          <b-button size="sm" variant="success" @click="hideModal">Create</b-button> |
-          <b-button size="sm" variant="danger" @click="hideModal">Cancel</b-button>
-        </b-modal>
+        </md-dialog>
       </md-app-content>
     </md-app>
   </div>
 </template>
 
 <script>
+import { validationMixin } from 'vuelidate'
+  import {
+    required,
+    email,
+    minLength,
+    maxLength
+  } from 'vuelidate/lib/validators'
+
   export default {
-    name: 'PersistentMini, Temporary, MaterialIcons',
+    name: 'Dashboard',
+    mixins: [validationMixin],
     data: () => ({
       menuVisible: false,
-      showSidepanel: false
+      showDialog: false,
+      form: {
+        firstName: null,
+        lastName: null,
+        gender: null,
+        address: null,
+        email: null,
+        telephone: null,
+      },
+      userSaved: false,
+      sending: false,
+      lastUser: null
     }),
-    
+    validations: {
+      form: {
+        firstName: {
+          required,
+          minLength: minLength(3)
+        },
+        lastName: {
+          required,
+          minLength: minLength(3)
+        },
+        gender: {
+          required
+        },
+        address: {
+          required,
+          maxlength: maxLength(100)
+        },
+        email: {
+          required,
+          email
+        },
+        telephone: {
+          required,
+          minLength: minLength(11)
+        }
+      }
+    },
     methods: {
       toggleMenu () {
         this.menuVisible = !this.menuVisible
       },
-       showModal() {
-        this.$refs['myModal'].show()
+       getValidationClass (fieldName) {
+        const field = this.$v.form[fieldName]
+
+        if (field) {
+          return {
+            'md-invalid': field.$invalid && field.$dirty
+          }
+        }
       },
-      hideModal() {
-        this.$refs['myModal'].hide()
+      clearForm () {
+        this.$v.$reset()
+        this.form.firstName = null
+        this.form.lastName = null
+        this.form.gender = null
+        this.form.address = null
+        this.form.email = null
+        this.form.telephone = null
       },
-      checkFormValidity() {
-        const valid = this.$refs.form.checkValidity()
-        this.namaState = valid ? 'valid' : 'invalid'
-        this.alamatState = valid ? 'valid' : 'invalid'
-        this.teleponState = valid ? 'valid' : 'invalid'
-        return valid
+      saveUser () {
+        this.sending = true
+
+        // Instead of this timeout, here you can call your API
+        window.setTimeout(() => {
+          this.lastUser = `${this.form.firstName} ${this.form.lastName}`
+          this.userSaved = true
+          this.sending = false
+          this.clearForm()
+        }, 1500)
       },
-      resetModal() {
-        this.nama = ''
-        this.alamat = ''
-        this.telepon = ''
-        this.namaState = null
-        this.alamatState = null
-        this.teleponState = null
-      },
-      // handleOk(bvModalEvt) {
-      //   // Prevent modal from closing
-      //   bvModalEvt.preventDefault()
-      //   // Trigger submit handler
-      //   this.handleSubmit()
-      // },
-      // handleSubmit() {
-      //   // Exit when the form isn't valid
-      //   if (!this.checkFormValidity()) {
-      //     return
-      //   }
-      //   // Push the name to submitted names
-      //   this.submittedNames.push(this.name)
-      //   // Hide the modal manually
-      //   this.$nextTick(() => {
-      //     this.$refs.modal.hide()
-      //   })
-      // }    
+      validateUser () {
+        this.$v.$touch()
+
+        if (!this.$v.$invalid) {
+          this.saveUser()
+        }
+      }
     }
   }
 </script>
@@ -174,6 +288,13 @@
   .md-app {
     min-height: 350px;
     border: 1px solid rgba(#000, .12);
+  }
+
+  .md-progress-bar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
   }
 
    // Demo purposes only

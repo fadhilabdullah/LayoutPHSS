@@ -1,35 +1,34 @@
 <template>
   <div class="centered-container">
-    <md-content class="md-elevation-3">
-
-      <div class="title">
-        <img class="logo" src="https://cdn2.tstatic.net/jatim/foto/bank/images/pertamina_20180807_071843.jpg">
+    <md-card md-with-hover>
+      <md-content class="md-elevation-3">
         
-      </div>
+        <div class="title">
+          <img class="logo" src="https://cdn2.tstatic.net/jatim/foto/bank/images/pertamina_20180807_071843.jpg">        
+        </div>
 
-      <div class="form">
-        <md-field>
-          <label>E-mail</label>
-          <md-input v-model="login.email" autofocus></md-input>
-        </md-field>
+        <div class="form">
+          <md-field>
+            <label>E-mail</label>
+            <md-input v-model="login.email" autofocus></md-input>
+          </md-field>
 
-        <md-field md-has-password>
-          <label>Password</label>
-          <md-input v-model="login.password" type="password"></md-input>
-        </md-field>
-      </div>
+          <md-field md-has-password>
+            <label>Password</label>
+            <md-input v-model="login.password" type="password"></md-input>
+          </md-field>
+        </div>
 
-      <div class="actions md-layout md-alignment-center-space-between">
-        <a href="/forgotpassword">Forgot password?</a>
-        <md-button class="md-raised md-primary" @click="auth">Log in</md-button>
-      </div>
+        <div class="actions md-layout md-alignment-center-space-between">
+          <a href="/forgotpassword">Forgot password?</a>
+          <md-button class="md-raised md-primary" @click="auth">Log in</md-button>
+        </div>
 
-      <div class="loading-overlay" v-if="loading">
-        <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
-      </div>
-
-    </md-content>
-    <div class="background" />
+        <div class="loading-overlay" v-if="loading">
+          <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
+        </div>
+      </md-content>
+    </md-card>
   </div>
 </template>
 
@@ -59,7 +58,15 @@
 </script>
 
 <style lang="scss" scoped>
+  .md-card {
+    width: 350px;
+    margin: 4px;
+    display: inline-block;
+    vertical-align: top;
+  }
+
   .centered-container {
+  background: lightslategrey;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -81,17 +88,7 @@
   .form {
     margin-bottom: 60px;
   }
-  .background {
-    background: rgba(161, 203, 241, 0.295);
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    z-index: 0;
-  }
+
   .md-content {
     z-index: 1;
     padding: 40px;
@@ -99,6 +96,7 @@
     max-width: 400px;
     position: relative;
   }
+
   .loading-overlay {
     z-index: 10;
     top: 0;
