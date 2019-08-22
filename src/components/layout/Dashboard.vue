@@ -7,8 +7,25 @@
         </md-button>
         <span class="md-title">Pertamina</span>
 
-        <div class="md-toolbar-section-end">
-          <md-button @click="showSidepanel = true"><md-icon>person</md-icon> User </md-button>
+        <div class="md-toolbar-section-end">          
+          <md-menu md-size="huge" md-align-trigger>
+            <md-button md-menu-trigger>
+              <md-icon>person</md-icon> 
+              User 
+            </md-button>        
+
+            <md-menu-content>
+              <md-menu-item @click="Profile">
+                <span>Profile</span>
+                <md-icon>person</md-icon>
+              </md-menu-item>
+
+              <md-menu-item @click="sendMessage">
+                <span>Log Out</span>
+                <md-icon>exit_to_app</md-icon>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
         </div>
       </md-app-toolbar>
 
@@ -46,38 +63,6 @@
         </md-list>
       </md-app-drawer>
 
-      <md-app-drawer class="md-right" :md-active.sync="showSidepanel">
-        <md-toolbar class="md-transparent" md-elevation="0">
-          <span class="md-title">Contoh</span>
-        </md-toolbar>
-
-        <md-list>
-          <md-list-item>
-            <span class="md-list-item-text">Abbey Christansen</span>
-
-            <md-button class="md-icon-button md-list-action">
-              <md-icon class="md-primary">chat_bubble</md-icon>
-            </md-button>
-          </md-list-item>
-
-          <md-list-item>
-            <span class="md-list-item-text">Alex Nelson</span>
-
-            <md-button class="md-icon-button md-list-action">
-              <md-icon class="md-primary">chat_bubble</md-icon>
-            </md-button>
-          </md-list-item>
-
-          <md-list-item>
-            <span class="md-list-item-text">Mary Johnson</span>
-
-            <md-button class="md-icon-button md-list-action">
-              <md-icon>chat_bubble</md-icon>
-            </md-button>
-          </md-list-item>
-        </md-list>
-      </md-app-drawer>
-
       <md-app-content>
         <div class="container-fluid">          
           <md-button class="md-primary md-raised" @click="showDialog = true">Create new</md-button>
@@ -85,25 +70,43 @@
             <div>
               <md-table md-card>
                 <md-table-toolbar>
-                  <h1 class="md-title">Employee</h1>
-                </md-table-toolbar>
+                  <div class="md-toolbar-section-start">
+                    <h1 class="md-title">Employee</h1>
+                  </div>
 
+                  <md-field md-clearable class="md-toolbar-section-end">
+                    <md-input placeholder="Search..." v-model="search" @input="searchOnTable" />
+                  </md-field>
+                </md-table-toolbar>
+ 
                 <md-table-row>
                   <md-table-head md-numeric>No</md-table-head>
-                  <md-table-head>Name</md-table-head>
+                  <md-table-head>First Name</md-table-head>
+                  <md-table-head>Last Name</md-table-head>
                   <md-table-head>Gender</md-table-head>
                   <md-table-head>Address</md-table-head>
                   <md-table-head>Email</md-table-head>
-                  <md-table-head>telephone</md-table-head>
+                  <md-table-head>Telephone</md-table-head>
+                 
                 </md-table-row>
 
                 <md-table-row>
                   <md-table-cell md-numeric>1</md-table-cell>
-                  <md-table-cell>Fadhil Abdullah H</md-table-cell>
+                  <md-table-cell>Fadhil</md-table-cell>
+                  <md-table-cell>Haryoguno</md-table-cell>
                   <md-table-cell>Male</md-table-cell>
                   <md-table-cell>Kuta Bumi, Tangerang - Banten</md-table-cell>
                   <md-table-cell>fadhilabdullah93@gmail.com</md-table-cell>
                   <md-table-cell>08997220843</md-table-cell>
+                  <md-table-cell>
+                    <md-button class="md-icon-button">
+                      <md-icon class="md-primary">create</md-icon>
+                    </md-button>
+                    
+                    <md-button class="md-icon-button">
+                      <md-icon class="md-accent">delete</md-icon>                    
+                    </md-button>
+                  </md-table-cell>
                 </md-table-row>
               </md-table>
             </div>
@@ -174,7 +177,7 @@
 
               <md-card-actions>
                 <md-button type="submit" class="md-primary" :disabled="sending">Create</md-button>
-                <!-- <md-button type="cancel" class="md-cancel md-accent">Cancel</md-button> -->
+                <!-- <md-button type="cancel" class="md-accent">Cancel</md-button> -->
               </md-card-actions>
             </md-card>
 
@@ -200,6 +203,7 @@ import { validationMixin } from 'vuelidate'
     mixins: [validationMixin],
     data: () => ({
       menuVisible: false,
+      showSidepanel: false,
       showDialog: false,
       form: {
         firstName: null,
@@ -285,6 +289,9 @@ import { validationMixin } from 'vuelidate'
 </script>
 
 <style lang="scss" scoped>
+
+  //  @import 'src/assets/style';
+
   .md-app {
     min-height: 350px;
     border: 1px solid rgba(#000, .12);

@@ -1,6 +1,6 @@
 <template>
   <div class="centered-container">
-    <md-card md-with-hover>
+    <md-card>
       <md-content class="md-elevation-3">
         
         <div class="title">
@@ -58,7 +58,11 @@
 </script>
 
 <style lang="scss" scoped>
-  .md-card {
+  .md-toolbar + .md-toolbar {
+    margin-top: 16px;
+  }
+
+   .md-card {
     width: 350px;
     margin: 4px;
     display: inline-block;
