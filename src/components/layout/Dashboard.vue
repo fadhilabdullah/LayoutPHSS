@@ -112,7 +112,9 @@
             </div>
         </div>
         <md-dialog :md-active.sync="showDialog">
-          <md-dialog-title>Create Employee</md-dialog-title>
+          <md-toolbar :md-elevation="1">
+            <span class="md-title">Create Employee</span>
+          </md-toolbar>
 
           <form novalidate class="md-layout" @submit.prevent="validateUser">
             <md-card class="md-layout-item md-size-100 md-small-size-100">
@@ -293,7 +295,7 @@ import { validationMixin } from 'vuelidate'
   //  @import 'src/assets/style';
 
   .md-app {
-    min-height: 350px;
+    min-height: 400px;
     border: 1px solid rgba(#000, .12);
   }
 
@@ -310,12 +312,12 @@ import { validationMixin } from 'vuelidate'
     max-width: calc(100vw - 125px);
   }
 
-  .page-container {
-    min-height: 300px;
-    overflow: hidden;
-    position: relative;
-    border: 1px solid rgba(#000, .12);
-  }  
+  // .page-container {
+  //   min-height: 300px;
+  //   overflow: hidden;
+  //   position: relative;
+  //   border: 1px solid rgba(#000, .12);
+  // }  
 
   .md-content {
     padding: 16px;
